@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,7 @@ using MVCApplication.Models;
 
 namespace MVCApplication.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class MoviesController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -24,7 +26,7 @@ namespace MVCApplication.Controllers
         {
             if (_context.Movie == null)
             {
-                return Problem("Entity set 'Movies_RentalContext.Movie'  is null.");
+                return Problem("Entity set 'MVCApplication.Movie'  is null.");
             }
 
             // Use LINQ to get list of genres.

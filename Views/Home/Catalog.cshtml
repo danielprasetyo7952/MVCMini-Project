@@ -1,0 +1,34 @@
+﻿@model MVCApplication.Models.MovieGenreViewModel
+
+@{
+    ViewData["Title"] = "Catalog";
+}
+
+<div class="row">
+    @foreach (var item in Model.Movies!) {
+        <div class="col-sm-3 mb-3">
+            <div class="card">
+                <img src="..." class="card-img-top" alt="Movie Poster">
+                <div class="card-body">
+                    <h5 class="card-title">@Html.DisplayFor(modelItem => item.Title)</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">Genre : @Html.DisplayFor(modelItem => item.Genre)</li>
+                        <li class="list-group-item">Price : Rp @Html.DisplayFor(modelItem => item.Price)</li>
+                        <li class="list-group-item">Availibility : 
+                            @if(item.IsRented == false)
+                            {
+                                <span class="badge bg-success">Yes</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-danger">No</span>
+                            }
+                        </li>
+                    </ul>
+                    <a href="#" class="btn btn-primary">Rent</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>
