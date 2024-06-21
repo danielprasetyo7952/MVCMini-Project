@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using MVCApplication.Models;
 
 namespace MVCApplication.Data
 {
@@ -9,5 +10,6 @@ namespace MVCApplication.Data
             : base(options)
         {
         }
+        public DbSet<MVCApplication.Models.Movie> Movie { get; set; } = default!;
     }
 }
