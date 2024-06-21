@@ -37,7 +37,7 @@ namespace MVCApplication.Controllers
 
             // Use LINQ to get list of genres.
             IQueryable<string> genreQuery = from m in _context.Movie
-            orderby m.Genre
+                                            orderby m.Genre
                                             select m.Genre;
             var movies = from m in _context.Movie
                          select m;
@@ -55,7 +55,7 @@ namespace MVCApplication.Controllers
             var movieGenreVM = new MovieGenreViewModel
             {
                 Genres = new SelectList(await genreQuery.Distinct().ToListAsync()),
-                Movies = await movies.ToListAsync()
+                Movies = await movies.OrderBy(x => x.Title).ToListAsync()
             };
 
             return View(movieGenreVM);

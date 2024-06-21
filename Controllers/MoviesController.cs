@@ -49,7 +49,7 @@ namespace MVCApplication.Controllers
             var movieGenreVM = new MovieGenreViewModel
             {
                 Genres = new SelectList(await genreQuery.Distinct().ToListAsync()),
-                Movies = await movies.ToListAsync()
+                Movies = await movies.OrderBy(x => x.Title).ToListAsync()
             };
 
             return View(movieGenreVM);
