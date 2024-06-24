@@ -29,6 +29,19 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Price)
         </dd>
+        <dt class="col-sm-2 align-self-center">
+            @Html.DisplayNameFor(model => model.PosterPath)
+        </dt>
+        <dd class="col-sm-10">
+            @if (Model.PosterPath != null)
+            {
+                <img src="@Model.PosterPath" alt="Movie Poster" style="width: 200px; height: 300px;" />
+            }
+            else
+            {
+                <img src="https://cdn.vectorstock.com/i/500p/48/06/image-preview-icon-picture-placeholder-vector-31284806.jpg" alt="Movie Poster" style="width: 200px; height: 300px;" />
+            }
+        </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.IsRented)
         </dt>

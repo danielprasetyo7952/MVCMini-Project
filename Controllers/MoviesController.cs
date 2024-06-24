@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Elfie.Serialization;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -15,10 +16,12 @@ namespace MVCApplication.Controllers
     public class MoviesController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IWebHostEnvironment _hostingEnvironment;
 
-        public MoviesController(ApplicationDbContext context)
+        public MoviesController(ApplicationDbContext context, IWebHostEnvironment hostingEnvironment)
         {
             _context = context;
+            _hostingEnvironment = hostingEnvironment;
         }
 
         // GET: Movies
@@ -84,10 +87,24 @@ namespace MVCApplication.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title,Genre,Price,IsRented")] Movie movie)
+        public async Task<IActionResult> Create([Bind("Id,Title,Genre,Price,IsRented,PosterImage")] Movie movie)
         {
             if (ModelState.IsValid)
             {
+                if(movie.PosterImage != null)
+                {
+                    string filePath = "\\movie\\poster\\";
+                    filePath += Guid.NewGuid().ToString() + "_" + movie.PosterImage.FileName;
+
+                    movie.PosterPath = filePath;
+
+                    string fullPath = Path.Join(_hostingEnvironment.WebRootPath, filePath);
+
+                    using (var fileStream = new FileStream(fullPath, FileMode.Create))
+                    {
+                        await movie.PosterImage.CopyToAsync(fileStream);
+                    }
+                }
                 _context.Add(movie);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -116,7 +133,7 @@ namespace MVCApplication.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Genre,Price,IsRented")] Movie movie)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Genre,Price,IsRented,PosterImage")] Movie movie)
         {
             if (id != movie.Id)
             {
@@ -127,6 +144,21 @@ namespace MVCApplication.Controllers
             {
                 try
                 {
+                    if (movie.PosterImage != null)
+                    {
+                        string filePath = "\\movie\\poster\\";
+                        filePath += Guid.NewGuid().ToString() + "_" + movie.PosterImage.FileName;
+
+                        movie.PosterPath = filePath;
+
+                        string fullPath = Path.Join(_hostingEnvironment.WebRootPath, filePath);
+
+                        using (var fileStream = new FileStream(fullPath, FileMode.Create))
+                        {
+                            await movie.PosterImage.CopyToAsync(fileStream);
+                        }
+                    }
+
                     _context.Update(movie);
                     await _context.SaveChangesAsync();
                 }
