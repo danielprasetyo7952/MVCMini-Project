@@ -27,7 +27,14 @@
     @foreach (var item in Model.Movies!) {
         <div class="col-sm-3 mb-3">
             <div class="card">
-                <img src=@Href("https://cdn.vectorstock.com/i/500p/48/06/image-preview-icon-picture-placeholder-vector-31284806.jpg") class="card-img-top" alt="Movie Poster">
+                @if(item.PosterPath != null)
+                {
+                    <img src="@item.PosterPath" class="card-img-top" alt="Movie Poster" height="400px">
+                }
+                else
+                {
+                    <img src="https://cdn.vectorstock.com/i/500p/48/06/image-preview-icon-picture-placeholder-vector-31284806.jpg" class="card-img-top" alt="Movie Poster" height="400px">
+                }
                 <div class="card-body">
                     <h5 class="card-title">@Html.DisplayFor(modelItem => item.Title)</h5>
                     <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>

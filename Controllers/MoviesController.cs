@@ -208,6 +208,12 @@ namespace MVCApplication.Controllers
             var movie = await _context.Movie.FindAsync(id);
             if (movie != null)
             {
+                string fullPath = Path.Join(_hostingEnvironment.WebRootPath, movie.PosterPath);
+                if (System.IO.File.Exists(fullPath))
+                {
+                    System.IO.File.Delete(fullPath);
+                }
+
                 _context.Movie.Remove(movie);
             }
             
