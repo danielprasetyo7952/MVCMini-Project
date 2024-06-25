@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
 
 namespace MVCApplication.Models
 {
@@ -6,9 +8,7 @@ namespace MVCApplication.Models
     {
         public int Id { get; set; }
         public int MovieId { get; set; }
-        public Movie Movie { get; set; } = null!;
-        public int CustomerId { get; set; }
-        public IdentityUser Customer { get; set; } = null!;
+        public string CustomerId { get; set; }
         public DateTime RentDate { get; set; }
         public DateTime ReturnDate { get; set; } 
     }
